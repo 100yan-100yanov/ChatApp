@@ -8,16 +8,16 @@ import java.net.Socket;
 import java.util.List;
 
 public class ClientHandler implements Runnable{
-    private Socket clientSocket;
-    private List<ClientHandler> clients;
-    private PrintWriter out;
-    private BufferedReader in;
+    private final Socket clientSocket;
+    private final List<ClientHandler> clients;
+    private final PrintWriter writer;
+    private final BufferedReader reader;
 
     public ClientHandler(Socket clientSocket, List<ClientHandler> clients) throws IOException {
         this.clientSocket = clientSocket;
         this.clients = clients;
-        this.out = new PrintWriter(clientSocket.getOutputStream(), true);
-        this.in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+        this.writer = new PrintWriter(clientSocket.getOutputStream(), true);
+        this.reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
     }
 
     @Override
@@ -25,9 +25,9 @@ public class ClientHandler implements Runnable{
         try {
             String inputLine;
 
-            while ((inputLine = in.readLine()) != null) {
-                for (ClientHandler aClient : clients) {
-                    aClient.out.println(inputLine);
+            while ((inputLine = reader.readLine()) != null) {
+                for (ClientHandler client : clients) {
+                    client.writer.println(inputLine);
                 }
             }
 
@@ -36,8 +36,8 @@ public class ClientHandler implements Runnable{
 
         } finally {
             try {
-                in.close();
-                out.close();
+                reader.close();
+                writer.close();
                 clientSocket.close();
 
             } catch (IOException e) {

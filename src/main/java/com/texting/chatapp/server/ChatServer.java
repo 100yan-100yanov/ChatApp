@@ -7,11 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ChatServer {
-    private static List<ClientHandler> clients = new ArrayList<>();
+    private static final List<ClientHandler> clients = new ArrayList<>();
 
     public static void main(String[] args) throws IOException {
 
-        ServerSocket serverSocket = new ServerSocket(2000);
+        ServerSocket serverSocket = new ServerSocket(5000);
         System.out.println("Server started. Waiting for clients...");
 
         while (true) {
