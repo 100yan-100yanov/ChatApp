@@ -8,13 +8,13 @@ import java.net.Socket;
 import java.util.List;
 
 public class ClientHandler implements Runnable{
-    private final Socket clientSocket;
-    private final List<ClientHandler> clients;
-    private final PrintWriter writer;
-    private final BufferedReader reader;
+    private Socket clientSocket;
+    private List<ClientHandler> clients;
+    private PrintWriter writer;
+    private BufferedReader reader;
 
-    public ClientHandler(Socket clientSocket, List<ClientHandler> clients) throws IOException {
-        this.clientSocket = clientSocket;
+    public ClientHandler(Socket socket, List<ClientHandler> clients) throws IOException {
+        this.clientSocket = socket;
         this.clients = clients;
         this.writer = new PrintWriter(clientSocket.getOutputStream(), true);
         this.reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));

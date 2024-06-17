@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ChatServer {
-    private static final List<ClientHandler> clients = new ArrayList<>();
+    private static List<ClientHandler> clients = new ArrayList<>();
 
     public static void main(String[] args) throws IOException {
 
@@ -16,7 +16,7 @@ public class ChatServer {
 
         while (true) {
             Socket clientSocket = serverSocket.accept();
-            System.out.println("Client connected.");
+            System.out.println("Client connected: " + clientSocket);
 
             ClientHandler clientThread = new ClientHandler(clientSocket, clients);
             clients.add(clientThread);
