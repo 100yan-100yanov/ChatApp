@@ -2,8 +2,6 @@ package com.texting.chatapp.client;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -11,13 +9,13 @@ import java.util.Date;
 public class ClientGUI extends JFrame {
     private JTextArea messageArea;
     private JTextField textField;
-    private ChatClient client;
     private JButton exitButton;
+    private ChatClient client;
 
     public ClientGUI() {
         super("Chat Application");
-
         buildGUI();
+        stylingGUI();
         startClient();
     }
 
@@ -58,14 +56,50 @@ public class ClientGUI extends JFrame {
             textField.setText("");
         });
 
-        // Exit button
+        // Exit button and message
         exitButton = new JButton("Exit");
-        exitButton.addActionListener(e -> System.exit(0));
 
+        exitButton.addActionListener(e -> {
+            String departureMessage = name + " has left the chat.";
+            client.sendMessage(departureMessage);
+
+            try {
+                Thread.sleep(1000);
+
+            } catch (InterruptedException ex) {
+                Thread.currentThread().interrupt();
+            }
+
+            System.exit(0);
+        });
+
+        // Bottom panel
         JPanel bottomPanel = new JPanel(new BorderLayout());
         bottomPanel.add(textField, BorderLayout.CENTER);
         bottomPanel.add(exitButton, BorderLayout.EAST);
         add(bottomPanel, BorderLayout.SOUTH);
+    }
+
+    private void stylingGUI() {
+        // Font and color
+        Color backgroundColor = new Color(240,240,240);
+        Color buttonColor = new Color(255,73,73);
+        Color textColor = new Color(50,50,50);
+        Font textFont = new Font("Arial", Font.PLAIN,14);
+        Font buttonFont = new Font("Arial", Font.BOLD,12);
+
+        // Set styles
+        messageArea.setFont(textFont);
+        messageArea.setBackground(backgroundColor);
+        messageArea.setForeground(textColor);
+
+        textField.setFont(textFont);
+        textField.setBackground(backgroundColor);
+        textField.setForeground(textColor);
+
+        exitButton.setFont(buttonFont);
+        exitButton.setBackground(buttonColor);
+        exitButton.setForeground(Color.WHITE);
     }
 
     private void startClient() {
